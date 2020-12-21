@@ -53,8 +53,10 @@ func (auth *AuthController) Profile(c *gin.Context) {
 	user := c.MustGet("user").(*(entity.User))
 
 	c.JSON(200, gin.H{
-		"user_name": user.Name,
-		"email":     user.Email,
+		"name":     user.Name,
+		"lastname": user.LastName,
+		"email":    user.Email,
+		"cpf":      user.Cpf,
 	})
 }
 
@@ -62,15 +64,17 @@ func (auth *AuthController) Profile(c *gin.Context) {
 func (auth *AuthController) Signup(c *gin.Context) {
 
 	type signupInfo struct {
-		Email    string `json:"email" binding:"required"`
-		Password string `json:"password" binding:"required"`
-		Name     string `json:"name"`
-		Celphone string `json:"celphone"`
-		LastName string `json:"lastname"`
-		Address  string `json:"address"`
-		Number   int32  `json:"number"`
-		City     string `json:"city"`
-		State    string `json:"state"`
+		Email     string `json:"email" binding:"required"`
+		Password  string `json:"password" binding:"required"`
+		Name      string `json:"name"`
+		Cpf       string `json:"cpf"`
+		Celphone  string `json:"celphone"`
+		LastName  string `json:"lastname"`
+		Address   string `json:"address"`
+		Number    int32  `json:"number"`
+		City      string `json:"city"`
+		State     string `json:"state"`
+		UserAgent string `json:"useragent"`
 	}
 	var info signupInfo
 	fmt.Println("INFO ->>> ", info)
@@ -94,6 +98,8 @@ func (auth *AuthController) Signup(c *gin.Context) {
 	user.City = info.City
 	user.State = info.State
 	user.Celphone = info.Celphone
+	user.Cpf = info.Cpf
+	user.UserAgent = c.GetHeader("User-Agent")
 	userservice := service.Userservice{}
 	err = userservice.Create(&user)
 	if err != nil {

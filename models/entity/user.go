@@ -22,6 +22,8 @@ type User struct {
 	Number             int32  `json:"number"`
 	City               string `json:"city"`
 	State              string `json:"state"`
+	UserAgent          string `json:"useragent"`
+	Cpf                string `json:"Cpf"`
 	// CreatedAt          *time.Time
 	// UpdatedAt          *time.Time
 	VerifiedAt *time.Time
